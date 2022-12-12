@@ -757,6 +757,8 @@ message SearchRequest {
   uint64 travel_timestamp = 10;
   uint64 guarantee_timestamp = 11; // guarantee_timestamp
   int64  nq = 12;
+  bool use_lenient_search = 13;
+  double lenient_rate = 14;
 }
 
 message Hits {
