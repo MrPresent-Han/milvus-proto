@@ -997,6 +997,12 @@ message FlushResponse{
   map<string, msg.MsgPosition> channel_cps = 7;
 }
 
+message ScanCursor {
+  repeated string channels = 1;
+  repeated int64 nodes = 2;
+  repeated int64 segment_idx = 3;
+}
+
 message QueryRequest {
   option (common.privilege_ext_obj) = {
     object_type: Collection
@@ -1015,6 +1021,11 @@ message QueryRequest {
   bool not_return_all_meta = 10;
   common.ConsistencyLevel consistency_level = 11;
   bool use_default_consistency = 12;
+  ScanCursor scan_cursor = 13;
+}
+
+message ScanCtx {
+  map<string, int64> channel_node_map = 1;
 }
 
 message QueryResults {
@@ -1022,6 +1033,7 @@ message QueryResults {
   repeated schema.FieldData fields_data = 2;
   string collection_name = 3;
   repeated string output_fields = 4;
+  ScanCtx read_ctx = 5;
 }
 
 message VectorIDs {
