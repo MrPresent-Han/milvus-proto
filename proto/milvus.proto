@@ -1006,6 +1006,7 @@ message ScanItem {
 
 message ScanCtx {
   int64 scan_ctx_id = 1;
+  bool is_init_scan = 2;
   map<string, ScanItem> scan_map = 3;
 }
 
