@@ -38,6 +38,8 @@ enum DataType {
   Float16Vector = 102;
   BFloat16Vector = 103;
   SparseFloatVector = 104;
+
+  Binary = 150;
 }
 
 enum FunctionType{
