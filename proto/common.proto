@@ -321,7 +321,6 @@ enum MsgType {
     DescribeDatabase = 1805;
 
     AddCollectionField = 1900;
-
     /* WAL group */
     AlterWAL = 2000;
 }
@@ -476,6 +475,7 @@ enum ObjectPrivilege {
     PrivilegeAlterCollectionFunction = 76;
     PrivilegeDropCollectionFunction = 77;
     PrivilegeUpdateReplicateConfiguration = 78;
+    PrivilegeAddCollectionFunctionField = 79;
 }
 
 message PrivilegeExt {
