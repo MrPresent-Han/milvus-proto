@@ -131,6 +131,7 @@ const (
 	MilvusService_UpdateReplicateConfiguration_FullMethodName = "/milvus.proto.milvus.MilvusService/UpdateReplicateConfiguration"
 	MilvusService_GetReplicateInfo_FullMethodName             = "/milvus.proto.milvus.MilvusService/GetReplicateInfo"
 	MilvusService_CreateReplicateStream_FullMethodName        = "/milvus.proto.milvus.MilvusService/CreateReplicateStream"
+	MilvusService_AddCollectionFunctionField_FullMethodName   = "/milvus.proto.milvus.MilvusService/AddCollectionFunctionField"
 )
 
 // MilvusServiceClient is the client API for MilvusService service.
@@ -277,6 +278,7 @@ type MilvusServiceClient interface {
 	//   - Once established, the target cluster persists incoming messages into
 	//     its WAL (Write-Ahead Log) ensuring durability and consistency.
 	CreateReplicateStream(ctx context.Context, opts ...grpc.CallOption) (MilvusService_CreateReplicateStreamClient, error)
+	AddCollectionFunctionField(ctx context.Context, in *AddCollectionFunctionFieldRequest, opts ...grpc.CallOption) (*AddCollectionFunctionFieldResponse, error)
 }
 
 type milvusServiceClient struct {
@@ -1301,6 +1303,15 @@ func (x *milvusServiceCreateReplicateStreamClient) Recv() (*ReplicateResponse, e
 	return m, nil
 }
 
+func (c *milvusServiceClient) AddCollectionFunctionField(ctx context.Context, in *AddCollectionFunctionFieldRequest, opts ...grpc.CallOption) (*AddCollectionFunctionFieldResponse, error) {
+	out := new(AddCollectionFunctionFieldResponse)
+	err := c.cc.Invoke(ctx, MilvusService_AddCollectionFunctionField_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MilvusServiceServer is the server API for MilvusService service.
 // All implementations should embed UnimplementedMilvusServiceServer
 // for forward compatibility
@@ -1445,6 +1456,7 @@ type MilvusServiceServer interface {
 	//   - Once established, the target cluster persists incoming messages into
 	//     its WAL (Write-Ahead Log) ensuring durability and consistency.
 	CreateReplicateStream(MilvusService_CreateReplicateStreamServer) error
+	AddCollectionFunctionField(context.Context, *AddCollectionFunctionFieldRequest) (*AddCollectionFunctionFieldResponse, error)
 }
 
 // UnimplementedMilvusServiceServer should be embedded to have forward compatible implementations.
@@ -1780,6 +1792,9 @@ func (UnimplementedMilvusServiceServer) GetReplicateInfo(context.Context, *GetRe
 }
 func (UnimplementedMilvusServiceServer) CreateReplicateStream(MilvusService_CreateReplicateStreamServer) error {
 	return status.Errorf(codes.Unimplemented, "method CreateReplicateStream not implemented")
+}
+func (UnimplementedMilvusServiceServer) AddCollectionFunctionField(context.Context, *AddCollectionFunctionFieldRequest) (*AddCollectionFunctionFieldResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCollectionFunctionField not implemented")
 }
 
 // UnsafeMilvusServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -3781,6 +3796,24 @@ func (x *milvusServiceCreateReplicateStreamServer) Recv() (*ReplicateRequest, er
 	return m, nil
 }
 
+func _MilvusService_AddCollectionFunctionField_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCollectionFunctionFieldRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MilvusServiceServer).AddCollectionFunctionField(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MilvusService_AddCollectionFunctionField_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MilvusServiceServer).AddCollectionFunctionField(ctx, req.(*AddCollectionFunctionFieldRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MilvusService_ServiceDesc is the grpc.ServiceDesc for MilvusService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -4223,6 +4256,10 @@ var MilvusService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetReplicateInfo",
 			Handler:    _MilvusService_GetReplicateInfo_Handler,
+		},
+		{
+			MethodName: "AddCollectionFunctionField",
+			Handler:    _MilvusService_AddCollectionFunctionField_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
