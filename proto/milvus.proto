@@ -2522,12 +2522,15 @@ message AddCollectionFunctionFieldRequest {
   string collection_name = 3;
   int64  collectionID = 4;
   // The serialized `schema.FieldSchema`
-  schema.FieldSchema field_schema = 5;
+  message FieldInfo {
+    schema.FieldSchema field_schema = 1;
+    // Version before 2.0.2 doesn't contain index_name, we use default index name.
+    string index_name = 2;
+    // Support keys: index_type,metric_type, params. Different index_type may has different params.
+    repeated common.KeyValuePair extra_params = 3;
+  }
+  repeated FieldInfo field_infos = 5;
   schema.FunctionSchema func_schema = 6;
-  // Support keys: index_type,metric_type, params. Different index_type may has different params.
-  repeated common.KeyValuePair extra_params = 7;
-  // Version before 2.0.2 doesn't contain index_name, we use default index name.
-  string index_name = 8;
 }
 
 message AddCollectionFunctionFieldResponse {
