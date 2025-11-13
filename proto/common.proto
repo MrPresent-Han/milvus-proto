@@ -323,6 +323,7 @@ enum MsgType {
     AddCollectionField = 1900;
     /* WAL group */
     AlterWAL = 2000;
+    AddCollectionFunctionField=2001;
 }
 
 message MsgBase {
