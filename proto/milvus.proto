@@ -2583,6 +2583,7 @@ message AlterCollectionSchemaRequest {
   }
   repeated FieldInfo field_infos = 5;
   repeated schema.FunctionSchema func_schema = 6;
+  bool backfill = 7;
 }
 
 message AlterCollectionSchemaResponse {
