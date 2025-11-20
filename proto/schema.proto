@@ -120,6 +120,7 @@ message CollectionSchema {
                       // 0 when the collection is created or the collection schema is updated before 2.6.5.
                       // the name dbName and description take no effect to it.
   bool external = 11;
+  bool do_physical_backfill = 12;
 }
 
 message StructArrayFieldSchema {
