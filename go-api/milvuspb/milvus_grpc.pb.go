@@ -134,7 +134,7 @@ const (
 	MilvusService_UpdateReplicateConfiguration_FullMethodName = "/milvus.proto.milvus.MilvusService/UpdateReplicateConfiguration"
 	MilvusService_GetReplicateInfo_FullMethodName             = "/milvus.proto.milvus.MilvusService/GetReplicateInfo"
 	MilvusService_CreateReplicateStream_FullMethodName        = "/milvus.proto.milvus.MilvusService/CreateReplicateStream"
-	MilvusService_AddCollectionFunctionField_FullMethodName   = "/milvus.proto.milvus.MilvusService/AddCollectionFunctionField"
+	MilvusService_AlterCollectionSchema_FullMethodName        = "/milvus.proto.milvus.MilvusService/AlterCollectionSchema"
 )
 
 // MilvusServiceClient is the client API for MilvusService service.
@@ -284,7 +284,7 @@ type MilvusServiceClient interface {
 	//   - Once established, the target cluster persists incoming messages into
 	//     its WAL (Write-Ahead Log) ensuring durability and consistency.
 	CreateReplicateStream(ctx context.Context, opts ...grpc.CallOption) (MilvusService_CreateReplicateStreamClient, error)
-	AddCollectionFunctionField(ctx context.Context, in *AddCollectionFunctionFieldRequest, opts ...grpc.CallOption) (*AddCollectionFunctionFieldResponse, error)
+	AlterCollectionSchema(ctx context.Context, in *AlterCollectionSchemaRequest, opts ...grpc.CallOption) (*AlterCollectionSchemaResponse, error)
 }
 
 type milvusServiceClient struct {
@@ -1336,9 +1336,9 @@ func (x *milvusServiceCreateReplicateStreamClient) Recv() (*ReplicateResponse, e
 	return m, nil
 }
 
-func (c *milvusServiceClient) AddCollectionFunctionField(ctx context.Context, in *AddCollectionFunctionFieldRequest, opts ...grpc.CallOption) (*AddCollectionFunctionFieldResponse, error) {
-	out := new(AddCollectionFunctionFieldResponse)
-	err := c.cc.Invoke(ctx, MilvusService_AddCollectionFunctionField_FullMethodName, in, out, opts...)
+func (c *milvusServiceClient) AlterCollectionSchema(ctx context.Context, in *AlterCollectionSchemaRequest, opts ...grpc.CallOption) (*AlterCollectionSchemaResponse, error) {
+	out := new(AlterCollectionSchemaResponse)
+	err := c.cc.Invoke(ctx, MilvusService_AlterCollectionSchema_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1492,7 +1492,7 @@ type MilvusServiceServer interface {
 	//   - Once established, the target cluster persists incoming messages into
 	//     its WAL (Write-Ahead Log) ensuring durability and consistency.
 	CreateReplicateStream(MilvusService_CreateReplicateStreamServer) error
-	AddCollectionFunctionField(context.Context, *AddCollectionFunctionFieldRequest) (*AddCollectionFunctionFieldResponse, error)
+	AlterCollectionSchema(context.Context, *AlterCollectionSchemaRequest) (*AlterCollectionSchemaResponse, error)
 }
 
 // UnimplementedMilvusServiceServer should be embedded to have forward compatible implementations.
@@ -1838,8 +1838,8 @@ func (UnimplementedMilvusServiceServer) GetReplicateInfo(context.Context, *GetRe
 func (UnimplementedMilvusServiceServer) CreateReplicateStream(MilvusService_CreateReplicateStreamServer) error {
 	return status.Errorf(codes.Unimplemented, "method CreateReplicateStream not implemented")
 }
-func (UnimplementedMilvusServiceServer) AddCollectionFunctionField(context.Context, *AddCollectionFunctionFieldRequest) (*AddCollectionFunctionFieldResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddCollectionFunctionField not implemented")
+func (UnimplementedMilvusServiceServer) AlterCollectionSchema(context.Context, *AlterCollectionSchemaRequest) (*AlterCollectionSchemaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AlterCollectionSchema not implemented")
 }
 
 // UnsafeMilvusServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -3895,20 +3895,20 @@ func (x *milvusServiceCreateReplicateStreamServer) Recv() (*ReplicateRequest, er
 	return m, nil
 }
 
-func _MilvusService_AddCollectionFunctionField_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddCollectionFunctionFieldRequest)
+func _MilvusService_AlterCollectionSchema_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AlterCollectionSchemaRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MilvusServiceServer).AddCollectionFunctionField(ctx, in)
+		return srv.(MilvusServiceServer).AlterCollectionSchema(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: MilvusService_AddCollectionFunctionField_FullMethodName,
+		FullMethod: MilvusService_AlterCollectionSchema_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MilvusServiceServer).AddCollectionFunctionField(ctx, req.(*AddCollectionFunctionFieldRequest))
+		return srv.(MilvusServiceServer).AlterCollectionSchema(ctx, req.(*AlterCollectionSchemaRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4369,8 +4369,8 @@ var MilvusService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MilvusService_GetReplicateInfo_Handler,
 		},
 		{
-			MethodName: "AddCollectionFunctionField",
-			Handler:    _MilvusService_AddCollectionFunctionField_Handler,
+			MethodName: "AlterCollectionSchema",
+			Handler:    _MilvusService_AlterCollectionSchema_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
