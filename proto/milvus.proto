@@ -2587,5 +2587,6 @@ message AlterCollectionSchemaRequest {
 }
 
 message AlterCollectionSchemaResponse {
-  common.Status status = 1;
+  common.Status alter_status = 1;
+  common.Status index_status = 2;
 }
