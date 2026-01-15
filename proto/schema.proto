@@ -267,6 +267,7 @@ message SearchResultData {
   string primary_field_name = 13;
   repeated common.HighlightResult highlight_results = 14;
   LongArray element_indices = 15;
+  FieldData order_by_field_value = 16;
 }
 
 // vector field clustering info
