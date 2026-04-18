@@ -1160,6 +1160,8 @@ message SearchRequest {
   schema.FunctionScore function_score = 19;  
   optional string namespace = 20;
   common.Highlighter highlighter = 21;
+  // SearchAggregation: user-facing GroupBy spec; mutually exclusive with group_by_field_id.
+  common.GroupBySpec group_by = 23;
 }
 
 message Hits {

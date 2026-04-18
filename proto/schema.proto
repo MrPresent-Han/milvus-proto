@@ -279,6 +279,11 @@ message SearchResultData {
   LongArray element_indices = 15;
   reserved 16; // was order_by_field_values, never used, reserved to avoid wire conflict
   repeated FieldData group_by_field_values = 17;
+  // SearchAggregation response: top-level AggBuckets for all nq queries, flattened.
+  // agg_topks[i] is the number of top-level buckets for the i-th query vector.
+  // Mirrors the scores + topks flat pattern used by regular search.
+  repeated AggBucket agg_buckets = 18;
+  repeated int64     agg_topks   = 19;
 }
 
 // vector field clustering info

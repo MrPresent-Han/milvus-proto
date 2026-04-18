@@ -681,3 +681,39 @@ message Highlighter {
     HighlightType type = 1;
     repeated KeyValuePair params = 2;
 }
+
+// SearchAggregation: metric aggregation specification for a single metric.
+message MetricAggSpec {
+    string op         = 1;  // "avg" | "sum" | "count" | "min" | "max"
+    string field_name = 2;  // field name | "_score" | "*" (count(*))
+}
+
+// SearchAggregation: sort specification for intra-bucket top_hits ordering.
+message SortSpec {
+    string field_name = 1;  // field name (JSON path expression OK) | "_score"
+    string direction  = 2;  // "asc" | "desc"
+}
+
+// SearchAggregation: top-hits configuration for a single GroupBy level.
+message TopHitsSpec {
+    int64             size = 1;  // max documents to return per bucket
+    repeated SortSpec sort = 2;  // intra-bucket doc ordering
+}
+
+// SearchAggregation: bucket ordering criterion.
+// key is a metric alias, "_count", or "_key".
+message OrderSpec {
+    string key       = 1;  // metric alias | "_count" | "_key"
+    string direction = 2;  // "asc" | "desc"
+}
+
+// SearchAggregation: user-facing GroupBy specification.
+// Supports recursive nesting via sub_group.
+message GroupBySpec {
+    repeated string            fields    = 1;  // field names; JSON path expression OK (e.g. "meta['category']")
+    int64                      size      = 2;  // max buckets to return at this level
+    map<string, MetricAggSpec> metrics   = 3;  // alias → MetricAggSpec
+    repeated OrderSpec         order     = 4;  // bucket ordering; index 0 = highest priority
+    TopHitsSpec                top_hits  = 5;  // nil = pure aggregation level (no docs returned)
+    GroupBySpec                sub_group = 6;  // recursive sub-level nesting
+}
